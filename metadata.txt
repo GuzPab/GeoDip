@@ -7,6 +7,7 @@ name=GeoDip
 qgisMinimumVersion=3.0
 description=Automatiza el ploteo de medidas estructurales (Dip y Dip-Direction) desde Excel/CSV o ploteo manual.
 version=1.0
+experimental=True
 author=Pablo Guzman H
 email=pabloguzmanherr@gmail.com
 
