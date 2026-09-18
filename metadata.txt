@@ -1,48 +1,18 @@
-# This file contains metadata for your plugin.
-
-# This file should be included when you package your plugin.# Mandatory items:
-
 [general]
 name=GeoDip
 qgisMinimumVersion=3.0
-description=Automatiza el ploteo de medidas estructurales (Dip y Dip-Direction) desde Excel/CSV o ploteo manual.
+description=Automates the plotting of structural geology measurements (Dip and Dip-Direction).
 version=1.0
-experimental=True
 author=Pablo Guzman H
 email=pabloguzmanherr@gmail.com
-
-about=GeoDip is a QGIS plugin designed to automate and standardize the visual representation of structural geological measurements. Its main purpose is: To save geologists time and prevent manual configuration errors when plotting dip and dip-direction data, ensuring that maps meet the visual standards of international geological surveys. It achieves this through two key features: Automated bulk plotting: Allows users to load a table (Excel/CSV), select the coordinate and measurement columns, and automatically generate points with the correct geological symbol and its exact rotation. Interactive manual plotting: Provides a tool to click directly on the map, enter the measurement values on the spot, and draw the symbol instantly. ______________________________________________________________________________________________________________GeoDip es un complemento para QGIS diseñado para automatizar y estandarizar la representación visual de medidas geológicas estructurales. Su propósito principal es: Ahorrar tiempo a los geólogos y evitar errores de configuración manual al plotear datos de buzamiento y dirección de buzamiento (Dip & Dip-Direction), garantizando que los mapas cumplan con los estándares visuales de los servicios geológicos internacionales. Lo logra mediante dos funciones clave: Ploteo masivo automatizado: Permite cargar una tabla (Excel/CSV), seleccionar las columnas de coordenadas y medidas, y generar los puntos con el símbolo geológico correcto y su rotación exacta de forma automática. Ploteo manual interactivo: Proporciona una herramienta para hacer clic directamente en el mapa, teclear los valores de la medida en el momento y dibujar el símbolo instantáneamente.
-
+about=GeoDip is a QGIS plugin designed to automate and standardize the visual representation of structural geological measurements. It saves geologists time and prevents manual configuration errors when plotting dip and dip-direction data from Excel/CSV files, applying native dynamic symbology and smart labeling.
 tracker=https://github.com/GuzPab/GeoDip/issues
 repository=https://github.com/GuzPab/GeoDip
-# End of mandatory metadata
-
-# Recommended items:
-
 hasProcessingProvider=no
-# Uncomment the following line and add your changelog:
-# changelog=
-
-# Tags are comma separated with spaces allowed
-tags=geology, structural geology, dip, dip direction, strike, symbology, field data, mapping, plotting, geología, buzamiento, rumbo, géologie, pendage, azimut
-
+tags=geology, structural geology, dip, dip direction, strike, symbology, field data, mapping, plotting, geología, buzamiento, rumbo
 homepage=https://github.com/GuzPab/GeoDip
-category=Plugins
+category=Vector
 icon=icon.png
-# experimental flag
-experimental=False
-
-# deprecated flag (applies to the whole plugin, not just a single version)
+experimental=True
 deprecated=False
-
-# Since QGIS 3.8, a comma separated list of plugins to be installed
-# (or upgraded) can be specified.
-# Check the documentation for more information.
-# plugin_dependencies=
-
-Category of the plugin: Raster, Vector, Database or Web
-# category=
-
-# If the plugin can run on QGIS Server.
 server=False
-
