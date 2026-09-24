@@ -13,6 +13,6 @@ tags=geology, structural geology, dip, dip direction, strike, symbology, field d
 homepage=https://github.com/GuzPab/GeoDip
 category=Vector
 icon=icon.png
-experimental=True
+experimental=False
 deprecated=False
 server=False
