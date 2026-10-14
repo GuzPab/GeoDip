@@ -1,8 +1,9 @@
 [general]
 name=GeoDip
-qgisMinimumVersion=3.0
+qgisMinimumVersion=3.30
+qgisMaximumVersion=4.99
 description=Automates the plotting of structural geology measurements (Dip and Dip-Direction).
-version=1.0
+version=1.1
 author=Pablo Guzman H
 email=pabloguzmanherr@gmail.com
 about=GeoDip is a QGIS plugin designed to automate and standardize the visual representation of structural geological measurements. It saves geologists time and prevents manual configuration errors when plotting dip and dip-direction data from Excel/CSV files, applying native dynamic symbology and smart labeling.
