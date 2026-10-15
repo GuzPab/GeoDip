@@ -4,19 +4,19 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![QGIS Compatibility](https://img.shields.io/badge/QGIS-3.30%20%7C%204.x-green.svg)](https://qgis.org)
 
-**GeoDip** is an open-source QGIS plugin designed to automate and standardize the visual representation of structural geological measurements (**Dip** and **Dip-Direction**)[cite: 3]. It saves geologists time and prevents manual configuration errors when plotting field data from Excel or CSV files, applying dynamic SVG symbology and smart quadrant labeling automatically[cite: 3].
+**GeoDip** is an open-source QGIS plugin designed to automate and standardize the visual representation of structural geological measurements (**Dip** and **Dip-Direction**). It saves geologists time and prevents manual configuration errors when plotting field data from Excel or CSV files, applying dynamic SVG symbology and smart quadrant labeling automatically.
 
 ---
 
 ##  Key Features
 
-* **Direct CSV & Excel Import:** Load `.csv`, `.xlsx`, and `.xls` structural datasets seamlessly without intermediate conversions[cite: 3].
+* **Direct CSV & Excel Import:** Load `.csv`, `.xlsx`, and `.xls` structural datasets seamlessly without intermediate conversions.
 * **Smart Column Auto-Detection:** Automatically scans and selects matching columns for *X/Easting*, *Y/Northing*, *Dip*, and *Dip-Direction* (supports both English and Spanish field headers).
-* **Dynamic Structural Symbology:** Rotates geological strike/dip SVG symbols dynamically based on Dip-Direction values and allows custom symbol sizing and coloring[cite: 2, 3].
-* **8-Quadrant Smart Labeling:** Automatically positions Dip angle labels around the symbol tip so text never overlaps the strike line or tick mark[cite: 3].
-* **GeoPackage (`.gpkg`) & Shapefile (`.shp`) Export:** Choose your preferred output format while preserving all original field attributes (lithology, station ID, notes, etc.)[cite: 2, 3].
+* **Dynamic Structural Symbology:** Rotates geological strike/dip SVG symbols dynamically based on Dip-Direction values and allows custom symbol sizing and coloring.
+* **8-Quadrant Smart Labeling:** Automatically positions Dip angle labels around the symbol tip so text never overlaps the strike line or tick mark.
+* **GeoPackage (`.gpkg`) & Shapefile (`.shp`) Export:** Choose your preferred output format while preserving all original field attributes (lithology, station ID, notes, etc.).
 * **Embedded Database Styling:** When exporting to GeoPackage, GeoDip saves the dynamic SVG rotation and labeling rules directly inside the `.gpkg` database (`saveStyleToDatabase`), allowing you to share fully styled layers in a single file.
-* **Universal Compatibility:** Built on the `qgis.PyQt` bridge for full compatibility across **QGIS 3 (PyQt5)** and **QGIS 4 (PyQt6)**[cite: 3].
+* **Universal Compatibility:** Built on the `qgis.PyQt` bridge for full compatibility across **QGIS 3 (PyQt5)** and **QGIS 4 (PyQt6)**.
 
 ---
 
@@ -36,12 +36,12 @@
 
 ##  How to Use
 
-1. Open **GeoDip** from the QGIS toolbar or the **Plugins** menu[cite: 3].
-2. Click **Load CSV/Excel File** and select your structural measurements dataset[cite: 2, 3].
-3. Verify the auto-detected columns for **X Coordinate**, **Y Coordinate**, **Dip Column**, and **Dip-Direction Column**[cite: 2].
-4. Select the Coordinate Reference System (**CRS**) of your coordinates[cite: 2, 3].
-5. *(Optional)* Check **Keep all original columns (lithology, notes, etc.)** to preserve your complete attribute table, and customize the **Symbol Size**, **Text Size**, and **Symbol Color**[cite: 2, 3].
-6. Click **Plot Measurements** and choose whether to save your output layer as a **GeoPackage (`.gpkg`)** or **ESRI Shapefile (`.shp`)**[cite: 2, 3].
+1. Open **GeoDip** from the QGIS toolbar or the **Plugins** menu.
+2. Click **Load CSV/Excel File** and select your structural measurements dataset.
+3. Verify the auto-detected columns for **X Coordinate**, **Y Coordinate**, **Dip Column**, and **Dip-Direction Column**.
+4. Select the Coordinate Reference System (**CRS**) of your coordinates.
+5. *(Optional)* Check **Keep all original columns (lithology, notes, etc.)** to preserve your complete attribute table, and customize the **Symbol Size**, **Text Size**, and **Symbol Color**.
+6. Click **Plot Measurements** and choose whether to save your output layer as a **GeoPackage (`.gpkg`)** or **ESRI Shapefile (`.shp`)**.
 
 ---
 
@@ -50,7 +50,7 @@
 If you use **GeoDip** in your scientific research, thesis, technical reports, or geological mapping projects, please cite it using its official Zenodo DOI:
 
 **APA Style:**
-> Guzmán H., P. (2026). *GeoDip: A QGIS plugin for automated structural measurements plotting* (Version 1.1.1) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.23382530[cite: 3]
+> Guzmán H., P. (2026). *GeoDip: A QGIS plugin for automated structural measurements plotting* (Version 1.1.1) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.23382530
 
 **BibTeX:**
 ```bibtex
@@ -69,6 +69,6 @@ If you use **GeoDip** in your scientific research, thesis, technical reports, or
 
 ## 📄 License & Author
 
-* **Author:** Pablo Guzmán H. (`pabloguzmanherr@gmail.com`)[cite: 3]
+* **Author:** Pablo Guzmán H. (`pabloguzmanherr@gmail.com`)
 * **License:** This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)** - see the [LICENSE](LICENSE) file for details.
 * **Issues & Feedback:** Please report bugs or feature requests on the [GitHub Issues](https://github.com/GuzPab/GeoDip/issues) page.
