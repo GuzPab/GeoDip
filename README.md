@@ -1,34 +1,74 @@
-# GeoDip - QGIS Plugin
+# GeoDip - Structural Geology Plotter for QGIS 
 
-**GeoDip** is a QGIS plugin specifically designed for geologists and structural geologists. It allows you to quickly load, plot, and automatically style structural measurements (Dip and Dip-Direction) from Excel (.xlsx, .xls) or CSV files with cartographic quality.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23382530.svg)](https://doi.org/10.5281/zenodo.23382530)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![QGIS Compatibility](https://img.shields.io/badge/QGIS-3.30%20%7C%204.x-green.svg)](https://qgis.org)
 
-## Key Features
-* **Automatic Reading:** Detects and reads CSV and Excel files natively.
-* **Integrated Projection:** Automatically assigns the Coordinate Reference System (EPSG) from the active project.
-* **Dynamic Symbology:** Renders a custom geological symbol (SVG) automatically rotated towards the dip direction (azimuth).
-* **Smart Labeling:** Implements a mathematical quadrant algorithm that dynamically positions the dip value, avoiding overlaps with the symbology.
-* **Data Preservation:** Optionally keeps all original attribute columns (lithology, notes, station, etc.) in the output Shapefile.
-* **Custom Styling:** Native QGIS color picker and size adjusters to customize your structural map output directly from the plugin menu.
+**GeoDip** is an open-source QGIS plugin designed to automate and standardize the visual representation of structural geological measurements (**Dip** and **Dip-Direction**)[cite: 3]. It saves geologists time and prevents manual configuration errors when plotting field data from Excel or CSV files, applying dynamic SVG symbology and smart quadrant labeling automatically[cite: 3].
 
-## Requirements
-* QGIS 3.x or higher.
-* **Zero external dependencies!** GeoDip uses the native QGIS engine to read files, so there is no need to install `pandas` or `openpyxl`. Just install the plugin and start mapping.
+---
 
-## Installation
-1. Download this repository as a `.zip` file by clicking the green **Code > Download ZIP** button (or download from the Releases page).
-2. Open QGIS.
-3. Go to the menu **Plugins > Manage and Install Plugins...**
-4. Select the **Install from ZIP** tab.
-5. Browse for the downloaded `.zip` file and click **Install Plugin**.
+##  Key Features
 
-## How to Use GeoDip
-1. Click the **GeoDip** icon in the QGIS toolbar.
-2. Load your data table (Excel or CSV).
-3. Select from the dropdown menus which columns correspond to the X/Y coordinates and the Dip / Dip-Direction values.
-4. Set your preferred symbol size, text size, and color.
-5. Choose whether to keep the other attributes from your table.
-6. Click **Plot Measurements** and choose where to save your new Shapefile.
-7. Done! QGIS will automatically plot your points with professional structural symbology.
+* **Direct CSV & Excel Import:** Load `.csv`, `.xlsx`, and `.xls` structural datasets seamlessly without intermediate conversions[cite: 3].
+* **Smart Column Auto-Detection:** Automatically scans and selects matching columns for *X/Easting*, *Y/Northing*, *Dip*, and *Dip-Direction* (supports both English and Spanish field headers).
+* **Dynamic Structural Symbology:** Rotates geological strike/dip SVG symbols dynamically based on Dip-Direction values and allows custom symbol sizing and coloring[cite: 2, 3].
+* **8-Quadrant Smart Labeling:** Automatically positions Dip angle labels around the symbol tip so text never overlaps the strike line or tick mark[cite: 3].
+* **GeoPackage (`.gpkg`) & Shapefile (`.shp`) Export:** Choose your preferred output format while preserving all original field attributes (lithology, station ID, notes, etc.)[cite: 2, 3].
+* **Embedded Database Styling:** When exporting to GeoPackage, GeoDip saves the dynamic SVG rotation and labeling rules directly inside the `.gpkg` database (`saveStyleToDatabase`), allowing you to share fully styled layers in a single file.
+* **Universal Compatibility:** Built on the `qgis.PyQt` bridge for full compatibility across **QGIS 3 (PyQt5)** and **QGIS 4 (PyQt6)**[cite: 3].
 
-## Author
-Created by **Pablo Guzman H**
+---
+
+##  Installation
+
+### Option 1: From the Official QGIS Plugin Repository (Recommended)
+1. Open **QGIS**.
+2. Go to **Plugins > Manage and Install Plugins...**
+3. Search for **`GeoDip`** and click **Install Plugin**.
+
+### Option 2: Install from ZIP
+1. Download the latest **`geo_dip.zip`** from the [Releases](https://github.com/GuzPab/GeoDip/releases) page.
+2. In QGIS, go to **Plugins > Manage and Install Plugins > Install from ZIP**.
+3. Select the downloaded `.zip` file and click **Install Plugin**.
+
+---
+
+##  How to Use
+
+1. Open **GeoDip** from the QGIS toolbar or the **Plugins** menu[cite: 3].
+2. Click **Load CSV/Excel File** and select your structural measurements dataset[cite: 2, 3].
+3. Verify the auto-detected columns for **X Coordinate**, **Y Coordinate**, **Dip Column**, and **Dip-Direction Column**[cite: 2].
+4. Select the Coordinate Reference System (**CRS**) of your coordinates[cite: 2, 3].
+5. *(Optional)* Check **Keep all original columns (lithology, notes, etc.)** to preserve your complete attribute table, and customize the **Symbol Size**, **Text Size**, and **Symbol Color**[cite: 2, 3].
+6. Click **Plot Measurements** and choose whether to save your output layer as a **GeoPackage (`.gpkg`)** or **ESRI Shapefile (`.shp`)**[cite: 2, 3].
+
+---
+
+##  How to Cite
+
+If you use **GeoDip** in your scientific research, thesis, technical reports, or geological mapping projects, please cite it using its official Zenodo DOI:
+
+**APA Style:**
+> Guzmán H., P. (2026). *GeoDip: A QGIS plugin for automated structural measurements plotting* (Version 1.1.1) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.23382530[cite: 3]
+
+**BibTeX:**
+```bibtex
+@software{Guzman_GeoDip_2026,
+  author       = {Guzmán H., Pablo},
+  title        = {{GeoDip: Automated structural measurements plotter for QGIS}},
+  year         = {2026},
+  publisher    = {Zenodo},
+  version      = {1.1.1},
+  doi          = {10.5281/zenodo.23382530},
+  url          = {[https://doi.org/10.5281/zenodo.23382530](https://doi.org/10.5281/zenodo.23382530)}
+}
+```
+
+---
+
+## 📄 License & Author
+
+* **Author:** Pablo Guzmán H. (`pabloguzmanherr@gmail.com`)[cite: 3]
+* **License:** This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)** - see the [LICENSE](LICENSE) file for details.
+* **Issues & Feedback:** Please report bugs or feature requests on the [GitHub Issues](https://github.com/GuzPab/GeoDip/issues) page.
