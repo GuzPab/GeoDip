@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Guzmán H."
+    given-names: "Pablo"
+    email: "pabloguzmanherr@gmail.com"
+title: "GeoDip: Automated structural measurements plotter for QGIS"
+version: 1.1.1
+doi: 10.5281/zenodo.23382530
+date-released: 2026-10-14
+url: "https://github.com/GuzPab/GeoDip"
+license: GPL-3.0
