@@ -159,6 +159,58 @@ class GeoDip:
         except TypeError:
             return QgsField(nombre, getattr(QVariant, "Double"), "double")
 
+    def _autodetectar_columnas(self, columnas):
+        """Detecta y selecciona automáticamente las columnas X, Y, Dip y Dip-Direction."""
+        patrones = {
+            self.dlg.combo_dip_dir: [
+                'dip_direction', 'dipdirection', 'dip_dir', 'dipdir', 'ddir', 'dd',
+                'azimuth', 'azimut', 'direccion', 'direction', 'rumbo', 'strike', 'dir'
+            ],
+            self.dlg.combo_dip: [
+                'dip', 'buzamiento', 'buz', 'inclinacion', 'inclination', 'angulo', 'angle', 'plunge'
+            ],
+            self.dlg.combo_x: [
+                'x', 'este', 'east', 'easting', 'este_x', 'coord_x', 'x_coord',
+                'utm_x', 'utmx', 'utm_e', 'lon', 'long', 'longitude', 'longitud', 'e'
+            ],
+            self.dlg.combo_y: [
+                'y', 'norte', 'north', 'northing', 'norte_y', 'coord_y', 'y_coord',
+                'utm_y', 'utmy', 'utm_n', 'lat', 'latitude', 'latitud', 'n'
+            ]
+        }
+
+        columnas_limpias = [
+            c.strip().lower().replace(' ', '_').replace('-', '_') for c in columnas
+        ]
+        usados = set()
+
+        for combo, claves in patrones.items():
+            encontrado = None
+            # 1ra pasada: Coincidencia exacta
+            for clave in claves:
+                for idx, col_norm in enumerate(columnas_limpias):
+                    if idx not in usados and col_norm == clave:
+                        encontrado = idx
+                        break
+                if encontrado is not None:
+                    break
+
+            # 2da pasada: Coincidencia parcial (si contiene la palabra clave)
+            if encontrado is None:
+                for clave in claves:
+                    if len(clave) < 2:
+                        continue
+                    for idx, col_norm in enumerate(columnas_limpias):
+                        if idx not in usados and clave in col_norm:
+                            encontrado = idx
+                            break
+                    if encontrado is not None:
+                        break
+
+            if encontrado is not None:
+                combo.setCurrentIndex(encontrado)
+                usados.add(encontrado)
+
     def cargar_archivo(self):
         ruta_archivo, _ = QFileDialog.getOpenFileName(
             self.dlg,
@@ -170,7 +222,7 @@ class GeoDip:
         if ruta_archivo:
             self.ruta_actual = ruta_archivo
             self.dlg.btn_cargar.setText(f"Loaded: {os.path.basename(ruta_archivo)}")
-            
+
             capa_datos = QgsVectorLayer(self.ruta_actual, "datos_temporales", "ogr")
             if not capa_datos.isValid():
                 self.iface.messageBar().pushMessage(
@@ -192,6 +244,9 @@ class GeoDip:
             self.dlg.combo_dip.addItems(columnas)
             self.dlg.combo_dip_dir.addItems(columnas)
 
+            # Autodetectar columnas según sus nombres
+            self._autodetectar_columnas(columnas)
+
     def plotear_medidas(self):
         if not hasattr(self, 'ruta_actual') or not self.ruta_actual:
             self.iface.messageBar().pushMessage(
@@ -201,15 +256,30 @@ class GeoDip:
             )
             return
 
-        ruta_salida, _ = QFileDialog.getSaveFileName(
-            self.dlg, "Save point layer as...", "", "Shapefile (*.shp)"
+        # El usuario elige entre GeoPackage (.gpkg) o Shapefile (.shp) al guardar
+        ruta_salida, filtro_elegido = QFileDialog.getSaveFileName(
+            self.dlg,
+            "Save point layer as...",
+            "",
+            "GeoPackage (*.gpkg);;ESRI Shapefile (*.shp)"
         )
 
         if not ruta_salida:
             return
 
-        if not ruta_salida.lower().endswith('.shp'):
-            ruta_salida += '.shp'
+        # Determinar formato y extensión según la elección del usuario
+        if ruta_salida.lower().endswith('.shp') or (
+            '*.shp' in filtro_elegido and not ruta_salida.lower().endswith('.gpkg')
+        ):
+            es_gpkg = False
+            if not ruta_salida.lower().endswith('.shp'):
+                ruta_salida += '.shp'
+            driver_ogr = "ESRI Shapefile"
+        else:
+            es_gpkg = True
+            if not ruta_salida.lower().endswith('.gpkg'):
+                ruta_salida += '.gpkg'
+            driver_ogr = "GPKG"
 
         try:
             capa_datos = QgsVectorLayer(self.ruta_actual, "datos_temporales", "ogr")
@@ -248,7 +318,11 @@ class GeoDip:
                     col_str = campo.name()
                     if col_str not in [col_dip, col_dip_dir]:
                         columnas_extra.append(col_str)
-                        campos.append(QgsField(campo))
+                        campo_copia = QgsField(campo)
+                        # En GeoPackage 'fid' es un nombre reservado para la clave primaria
+                        if es_gpkg and col_str.lower() == 'fid':
+                            campo_copia.setName('fid_orig')
+                        campos.append(campo_copia)
 
             proveedor.addAttributes(campos)
             capa_temp.updateFields()
@@ -285,9 +359,13 @@ class GeoDip:
 
             proveedor.addFeatures(features)
 
+            nombre_capa = os.path.splitext(os.path.basename(ruta_salida))[0]
+
             opciones = QgsVectorFileWriter.SaveVectorOptions()
-            opciones.driverName = "ESRI Shapefile"
+            opciones.driverName = driver_ogr
             opciones.fileEncoding = "UTF-8"
+            if es_gpkg:
+                opciones.layerName = nombre_capa
 
             resultado_guardado = QgsVectorFileWriter.writeAsVectorFormatV3(
                 capa_temp, ruta_salida, QgsProject.instance().transformContext(), opciones
@@ -295,7 +373,6 @@ class GeoDip:
             error = resultado_guardado[0]
 
             if error == QgsVectorFileWriter.WriterError.NoError:
-                nombre_capa = os.path.basename(ruta_salida).replace('.shp', '')
                 capa_final = QgsVectorLayer(ruta_salida, nombre_capa, "ogr")
 
                 ruta_svg = os.path.join(self.plugin_dir, 'simbolo_buzamiento.svg')
@@ -363,6 +440,15 @@ class GeoDip:
                 capa_final.setLabelsEnabled(True)
                 capa_final.setLabeling(QgsVectorLayerSimpleLabeling(config_etiqueta))
 
+                # Si es GeoPackage, guardamos el estilo directamente dentro del archivo .gpkg
+                if es_gpkg:
+                    capa_final.saveStyleToDatabase(
+                        nombre_capa,
+                        "GeoDip default structural style",
+                        True,
+                        ""
+                    )
+
                 QgsProject.instance().addMapLayer(capa_final)
                 self.dlg.close()
                 self.iface.messageBar().pushMessage(
@@ -374,7 +460,7 @@ class GeoDip:
             else:
                 self.iface.messageBar().pushMessage(
                     "Error",
-                    f"Could not save the Shapefile. Error Code: {error}",
+                    f"Could not save the layer. Error Code: {error}",
                     level=Qgis.MessageLevel.Critical
                 )
 
